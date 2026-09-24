@@ -13,17 +13,17 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Pacman Graph
-        uses: abozanona/pacman-contribution-graph@main
+      # Pacman SVG oluşturur
+      - uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
 
-      - name: Push SVG to Output Branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      # Oluşan dosyayı 'output' dalına push eder
+      - name: Push Pacman SVG to Output Branch
+        uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
           build_dir: dist
