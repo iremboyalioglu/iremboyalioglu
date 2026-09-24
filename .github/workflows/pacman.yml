@@ -1,0 +1,30 @@
+name: Pacman Contribution Graph
+
+on:
+  # Her 24 saatte bir otomatik çalışır
+  schedule:
+    - cron: "0 0 * * *"
+  # Dilediğiniz zaman elle tetiklemek için
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Pac-Man SVG çıktısı oluşturan action
+      - uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          # Çıktı dosyasının kaydedileceği dal (branch)
+          svg_out_path: dist/pacman.svg
+
+      # Oluşan Pac-Man görselini 'output' veya 'gh-pages' dalına yükler
+      - name: Deploy to Output Branch
+        uses: crazy-max/ghaction-github-pages@v3.1.0
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
